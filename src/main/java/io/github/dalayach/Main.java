@@ -47,7 +47,7 @@ public class Main
    
    }
    
-   public void addButtons(JPanel panel)
+   public void addButtons(final JPanel panel)
    {
    
       JButton submitButton = new JButton("SUBMIT");
