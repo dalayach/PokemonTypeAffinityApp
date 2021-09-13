@@ -1,100 +1,42 @@
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.EnumSet;
-import java.util.Set;
+package io.github.dalayach;
 
+/**
+ * 
+ * This program allows you to calculate the best attacking types to use against a Set of defending types. You simply select 
+ * the types that the defending Pokemon has, then click the desired status effect against that Pokemon.
+ * 
+ * @see <a href="https://gamefaqs1.cbsistatic.com/faqs/32/76632-2.png">Pokemon Type Chart</a>
+ * 
+ */
 public class Main
 {
 
-   private JPanel panel = new JPanel();
-   private JLabel label = new JLabel("Testing 123");
-
-   public Main ()
+   /**
+    * 
+    * Main method.
+    * 
+    * @param args       If you wish to use the commandline version of this application, simply provide all the types of the
+    *                   defending Pokemon (separated by spaces) as commandline arguments, then the program will return the
+    *                   results.
+    * 
+    */
+   public static void main(String[] args)
    {
    
-      JFrame frame = new JFrame("Pokemon Type Affinity App");
-      
-      panel.add(label);
-      
-      this.addCheckboxes(panel);
-      this.addButtons(panel);
-      
-      frame.add(panel);
-      
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setSize(700, 400);
-      frame.setLocation(200, 200);
-      
-      frame.setVisible(true);
-      
-   }
-   
-   public void addCheckboxes(JPanel panel)
-   {
-   
-      for (PokemonType each : PokemonType.values())
+      if (args.length >= 1)
       {
       
-         panel.add(new JCheckBox(each.name()));
+         new CommandLineApp(args);
+      
+      }
+      
+      else
+      {
+      
+         new GUI();
       
       }
    
    }
    
-   public void addButtons(JPanel panel)
-   {
-   
-      JButton submitButton = new JButton("SUBMIT");
-      submitButton.addActionListener(
-         new ActionListener() {
-         
-            @Override
-            public void actionPerformed(ActionEvent e)
-            {
-            
-               Set<PokemonType> targetTypesOfPokemon = EnumSet.noneOf(PokemonType.class);
-            
-               for (Component component : panel.getComponents())
-               {
-               
-                  if (component instanceof JCheckBox)
-                  {
-                  
-                     JCheckBox checkBox = (JCheckBox) component;
-                  
-                     if (checkBox.isSelected())
-                     {
-                     
-                        targetTypesOfPokemon.add(PokemonType.valueOf(checkBox.getText()));
-                     
-                     }
-                  
-                  }
-               
-               }
-               
-               label.setText(PokemonTypeMatcher.bestTypesForTarget(targetTypesOfPokemon).toString());
-            
-            }
-         
-         }
-         );
-         
-      panel.add(submitButton);
-   
-   }
-
-   public static void main(String[] args)
-   {
-   
-      new Main();
-   
-   }
-
 }
